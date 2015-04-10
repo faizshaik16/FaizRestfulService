@@ -18,4 +18,12 @@ public class V1_Status {
 	public String secondaryPath(){
 		return " Version = " + api_version ;
 	}
+	
+	
+	@Path("/welcome")
+	@GET
+	@Produces (MediaType.TEXT_HTML)
+	public String thirdMethod(){
+		return " Welcome Faiz "  ;
+	}
 }
