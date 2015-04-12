@@ -12,6 +12,7 @@ public class AccessDB {
 		
 		try{
 			if(conn == null ){
+				Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");	
 	  		 conn=DriverManager.getConnection("jdbc:ucanaccess://C:\\Users\\faiz\\Documents\\FaizSoftwares\\AccessDB\\FaizDB.accdb");
 			}
 			
