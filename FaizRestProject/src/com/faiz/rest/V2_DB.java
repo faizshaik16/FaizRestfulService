@@ -2,12 +2,15 @@ package com.faiz.rest;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import org.codehaus.jettison.json.*;
 
 import com.faiz.conn.AccessDB;
 
@@ -34,7 +37,9 @@ public class V2_DB {
 	@GET
 	@Produces (MediaType.TEXT_HTML)
 	public String getEmpData(){
+		
 		Connection conn= null;
+		JSONArray jsonArray = new JSONArray();
 
 	    try
 	    {
@@ -44,12 +49,20 @@ public class V2_DB {
 	        String qry = "SELECT * FROM Emp";
 
 	        ResultSet rs = stment.executeQuery(qry);
+	        ResultSetMetaData rsmd = rs.getMetaData();
 	        while(rs.next())
 	        {
-	            String id    = rs.getString("EmpId") ;
-	            String fname = rs.getString("FirstName");
-
-	            System.out.println(id + fname);
+	        	int columns = rsmd.getColumnCount();
+	        	JSONObject jsonObject = new JSONObject();
+	        	for(int i=1 ; i < columns; i++){
+	        		String columnName = rsmd.getColumnName(i);
+	        		String columnVal = rs.getString(columnName);
+	        		jsonObject.put(columnName, columnVal);
+	        		System.out.println(columnName +"  " +  columnName);
+	        	}
+	     
+	        	jsonArray.put(jsonObject);
+	            
 	        }
 	    }
 	    catch(Exception err)
@@ -67,6 +80,6 @@ public class V2_DB {
 	    	
 	    }//end of finally block
 
-	    return "DB Data";
+	    return "DB Data = " +  jsonArray;
 	}
 }
