@@ -51,11 +51,12 @@ public class V3_Param {
 	
 	@POST
 	@Path("/fp")
-	public String getFormParam( @FormParam("username") String username){
+	public String getFormParam( @FormParam("username") String username,
+			@CookieParam ("email") String cook){
 		
 		System.out.println(" Form Parameter = " + username);
 		//http://localhost:8080/FaizRestProject/api/v3/status/hp
-		return "Form Param user name =" + username;
+		return "Form Param user name =" + username + "  Cookie email = " + cook;
 	}
 
 
